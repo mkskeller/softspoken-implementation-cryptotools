@@ -16,9 +16,6 @@
 // gsl::copy already included in gsl-lite.
 #endif
 
-// Use boost in case C++20 isn't available.
-#include <boost/core/bit.hpp>
-
 #define STRINGIZE_DETAIL(x) #x
 #define STRINGIZE(x) STRINGIZE_DETAIL(x)
 #define LOCATION __FILE__ ":" STRINGIZE(__LINE__)
@@ -69,15 +66,15 @@ namespace osuCrypto {
 
     inline u64 log2ceil(u64 x)
     {
-        return boost::core::bit_width(x - 1);
+        return 64 - __builtin_clzll(x - 1);
     }
     inline u64 log2floor(u64 x)
     {
-        return boost::core::bit_width(x) - 1;
+        return 63 - __builtin_clzll(x);
     }
     inline int popcount(u64 x)
     {
-        return boost::core::popcount(x);
+        return __builtin_popcount(x);
     }
 
     block sysRandomSeed();
