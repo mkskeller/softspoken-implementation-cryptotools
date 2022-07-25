@@ -270,13 +270,13 @@ namespace osuCrypto
             BaseCallbackOp(const std::function<void()>& cb) : mCallback(cb){}
             BaseCallbackOp(std::function<void()>&& cb) : mCallback(std::move(cb)){}
 
-            void asyncPerform(ChannelBase* base, io_completion_handle&& completionHandle) override {
+            void asyncPerform(ChannelBase*, io_completion_handle&& completionHandle) override {
                 error_code ec = make_error_code(Errc::success);
                 mCallback();
                 completionHandle(ec, 0);
             }
 
-            void asyncCancelPending(ChannelBase* base, const error_code& ec) override {}
+            void asyncCancelPending(ChannelBase*, const error_code&) override {}
 
             void asyncCancel(ChannelBase* base, const error_code&, io_completion_handle&& completionHandle) override
             {
@@ -365,9 +365,9 @@ namespace osuCrypto
 
             void asyncPerform(ChannelBase* base, io_completion_handle&& completionHandle) override;
             
-            void asyncCancelPending(ChannelBase* base, const error_code& ec) override {}
+            void asyncCancelPending(ChannelBase*, const error_code&) override {}
 
-            void asyncCancel(ChannelBase* base, const error_code&, io_completion_handle&& completionHandle) override {
+            void asyncCancel(ChannelBase*, const error_code&, io_completion_handle&& completionHandle) override {
                 error_code ec = make_error_code(Errc::success);
                 completionHandle(ec , 0);
             }
@@ -470,13 +470,13 @@ namespace osuCrypto
 
             void asyncPerform(ChannelBase* base, io_completion_handle&& completionHandle) override;
 
-            void asyncCancel(ChannelBase* base, const error_code& ec, io_completion_handle&& completionHandle) override
+            void asyncCancel(ChannelBase*, const error_code& ec, io_completion_handle&& completionHandle) override
             {
                 mPromise.set_exception(std::make_exception_ptr(std::runtime_error(ec.message())));
                 completionHandle(ec, 0);
             }
             
-            void asyncCancelPending(ChannelBase* base, const error_code& ec) override {}
+            void asyncCancelPending(ChannelBase*, const error_code&) override {}
 
 
             std::string toString() const override;
@@ -593,7 +593,7 @@ namespace osuCrypto
                 T::asyncCancel(base, ec, std::forward<io_completion_handle>(completionHandle));
             }
             
-            void asyncCancelPending(ChannelBase* base, const error_code& ec) override {}
+            void asyncCancelPending(ChannelBase*, const error_code&) override {}
 
         };
 

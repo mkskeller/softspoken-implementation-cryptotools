@@ -69,7 +69,7 @@ namespace osuCrypto
 
         // a function that gives this socket access to the IOService.
         // This is called right after being handed to the Channel.
-        virtual void setIOService(IOService& ios) { }
+        virtual void setIOService(IOService&) { }
     };
 
 

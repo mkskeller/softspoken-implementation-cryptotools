@@ -439,11 +439,11 @@ namespace osuCrypto {
         void asyncPerform(ChannelBase*, io_completion_handle&& completionHandle) override {
             mBase->setHandle(std::forward<io_completion_handle>(completionHandle), true);
         }
-        void asyncCancelPending(ChannelBase* base, const error_code& ec) override {
+        void asyncCancelPending(ChannelBase*, const error_code&) override {
             mBase->cancelPending(true);
         }
 
-        void asyncCancel(ChannelBase* base, const error_code& ec, io_completion_handle&& completionHandle) override
+        void asyncCancel(ChannelBase*, const error_code&, io_completion_handle&& completionHandle) override
         {
             mBase->setHandle(std::forward<io_completion_handle>(completionHandle), true);
             mBase->cancelPending(true);
@@ -464,12 +464,12 @@ namespace osuCrypto {
         StartSocketRecvOp(StartSocketOp* base)
             : mBase(base) {}
 
-        void asyncPerform(ChannelBase* base, io_completion_handle&& completionHandle) override {
+        void asyncPerform(ChannelBase*, io_completion_handle&& completionHandle) override {
             mBase->setHandle(std::forward<io_completion_handle>(completionHandle), false);
         }
-        void asyncCancelPending(ChannelBase* base, const error_code& ec) override { mBase->cancelPending(false); }
+        void asyncCancelPending(ChannelBase*, const error_code&) override { mBase->cancelPending(false); }
 
-        void asyncCancel(ChannelBase* base, const error_code& ec, io_completion_handle&& completionHandle) override
+        void asyncCancel(ChannelBase*, const error_code&, io_completion_handle&& completionHandle) override
         {
             mBase->setHandle(std::forward<io_completion_handle>(completionHandle), false);
             mBase->cancelPending(false);

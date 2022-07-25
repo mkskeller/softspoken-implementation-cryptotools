@@ -178,7 +178,7 @@ namespace osuCrypto {
             }
             template<u64 blocks>
             static TRY_FORCEINLINE typename std::enable_if<(blocks == 0)>::type
-            hashBlocksFinalXor(const block* plaintext, const block* buff, block* ciphertext) {}
+            hashBlocksFinalXor(const block*, const block*, block*) {}
 
         public:
             template<u64 blocks>
@@ -296,11 +296,11 @@ namespace osuCrypto {
             // Base case
             template<u64 blocks>
             static TRY_FORCEINLINE typename std::enable_if<blocks == 0>::type
-            roundEncBlocks(const block* stateIn, block* stateOut, const block& roundKey) {}
+            roundEncBlocks(const block*, block*, const block&) {}
 
             template<u64 blocks>
             static TRY_FORCEINLINE typename std::enable_if<blocks == 0>::type
-            finalEncBlocks(const block* stateIn, block* stateOut, const block& roundKey) {}
+            finalEncBlocks(const block*, block*, const block&) {}
 
             // The expanded key.
             std::array<block,rounds + 1> mRoundKey;
@@ -560,6 +560,8 @@ namespace osuCrypto {
         // Default constructor leave the class in an invalid state
         // until setKey(...) is called.
         MultiKeyAES() = default;
+
+        MultiKeyAES(const MultiKeyAES& other) { *this = other; }
 
         // Constructor to initialize the class with the given key
         MultiKeyAES(span<block> keys) { setKeys(keys); }
