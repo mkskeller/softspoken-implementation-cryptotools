@@ -81,6 +81,7 @@ def Build(projectName, mainArgs, cmakeArgs,install, prefix, par):
 
         if len(prefix):
             InstallCmd += " --prefix {0} ".format(prefix)
+            CMakeCmd += " -DCMAKE_PREFIX_PATH={0} ".format(prefix)
     
     print("\n\n====== build.py ("+projectName+") ========")
     print(mkDirCmd)
