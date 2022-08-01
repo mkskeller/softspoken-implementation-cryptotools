@@ -65,12 +65,14 @@ namespace osuCrypto {
         mBase->recvEnque(make_SBO_ptr<details::RecvOperation, StartSocketRecvOp>(mBase->mStartOp.get()));
         mBase->sendEnque(make_SBO_ptr<details::SendOperation, StartSocketSendOp>(mBase->mStartOp.get()));
 
+        resetStats();
     }
 
     Channel::Channel(IOService& ios, SocketInterface* sock)
     {
         sock->setIOService(ios);
         mBase.reset(new ChannelBase(ios, sock));
+        resetStats();
     }
 
 
