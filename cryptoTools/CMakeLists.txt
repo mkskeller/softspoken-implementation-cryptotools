@@ -6,7 +6,7 @@ get_directory_property(hasParent PARENT_DIRECTORY)
 
 # add the source files
 file(GLOB_RECURSE SRCS *.cpp *.c)
-add_library(cryptoTools STATIC ${SRCS})
+add_library(cryptoTools ${SRCS})
 
 # make projects that include cryptoTools use this as an include folder
 target_include_directories(cryptoTools PUBLIC
