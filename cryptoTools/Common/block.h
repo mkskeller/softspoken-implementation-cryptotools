@@ -7,14 +7,6 @@
 #include <new>
 #include <string.h>
 
-#ifdef OC_ENABLE_SSE2
-#include <emmintrin.h>
-#include <smmintrin.h>
-#endif
-#ifdef OC_ENABLE_PCLMUL
-#include <wmmintrin.h>
-#endif
-
 #include <boost/align/aligned_allocator.hpp>
 
 namespace osuCrypto
@@ -241,7 +233,7 @@ namespace osuCrypto
 #ifdef OC_ENABLE_SSE2
         inline osuCrypto::block mm_slli_epi64(const std::uint8_t& rhs)const
         {
-            return _mm_slli_epi64(*this, rhs);
+            return _mm_slli_epi64(mData, rhs);
         }
 #endif
         inline osuCrypto::block cc_slli_epi64(const std::uint8_t& rhs)const
@@ -270,7 +262,7 @@ namespace osuCrypto
 #ifdef OC_ENABLE_SSE2
         inline block mm_srli_epi64(const std::uint8_t& rhs) const
         {
-            return _mm_srli_epi64(*this, rhs);
+            return _mm_srli_epi64(mData, rhs);
         }
 #endif
         inline block cc_srli_epi64(const std::uint8_t& rhs) const
