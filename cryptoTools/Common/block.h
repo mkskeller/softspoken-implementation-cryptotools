@@ -15,9 +15,7 @@
 #include <wmmintrin.h>
 #endif
 
-#ifdef OC_ENABLE_AVX2
 #include <boost/align/aligned_allocator.hpp>
-#endif
 
 namespace osuCrypto
 {
@@ -674,7 +672,7 @@ namespace osuCrypto
 
 #else
     template<size_t N, typename T = block>
-    using AlignedBlockArray = std::array<T, N>
+    using AlignedBlockArray = std::array<T, N>;
     template<typename T = block>
     using AlignedBlockPtrT = std::unique_ptr<T[]>;
 

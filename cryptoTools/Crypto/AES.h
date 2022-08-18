@@ -755,12 +755,7 @@ namespace osuCrypto {
 			setSeed(seed);
 		}
 
-		void setSeed(block seed)
-		{
-			index = 0;
-			prng.setKey(seed);
-			refillBuffer();
-		}
+		void setSeed(block seed);
 
 		const AES& get() const
 		{

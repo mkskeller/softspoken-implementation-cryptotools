@@ -605,6 +605,13 @@ namespace osuCrypto {
         }
     }
 
+    void AESStream::setSeed(block seed)
+    {
+        index = 0;
+        prng.setKey(seed);
+        refillBuffer();
+    }
+
 #ifdef OC_ENABLE_PORTABLE_AES
     template class details::AES<details::Portable>;
     template class details::AESDec<details::Portable>;
