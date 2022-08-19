@@ -102,9 +102,6 @@ void tests_cryptoTools::block_operation_test()
         block y = prng.get();
         block z0, z1, q0, q1;
 
-        u8 m64 = (prng.get<u8>() % 64);
-        u8 m16 = (prng.get<u8>() % 16);
-
         int w0 = x.cc_movemask_epi8();
         int w1 = x.mm_movemask_epi8();
         if (w0 != w1)
@@ -159,22 +156,32 @@ void tests_cryptoTools::block_operation_test()
             throw UnitTestFail("or_si128 " LOCATION);
         }
 
-        z0 = x.cc_slli_epi64(m64);
-        z1 = x.mm_slli_epi64(m64);
-        if (z0 != z1)
+        for (int j = 0; j < 128; j++)
         {
-            throw UnitTestFail("slli_epi64 " LOCATION);
-        }
+            z0 = x.cc_slli_epi64(j);
+            z1 = x.mm_slli_epi64(j);
+            if (z0 != z1)
+            {
+                throw UnitTestFail("slli_epi64 " + std::to_string(j) + " " + LOCATION);
+            }
 
-        z0 = x.cc_srai_epi16(m16);
-        z1 = x.mm_srai_epi16(m16);
-        if (z0 != z1)
-        {
-            std::cout << "srai_epi16 " << int(m16) << " " << i << std::endl;
-            std::cout << "x   " << bits(x, 16) << std::endl;
-            std::cout << "act " << bits(z0, 16) << std::endl;
-            std::cout << "exp " << bits(z1, 16) << std::endl;
-            throw UnitTestFail("srai_epi16 " LOCATION);
+            z0 = x.cc_srli_epi64(j);
+            z1 = x.mm_srli_epi64(j);
+            if (z0 != z1)
+            {
+                throw UnitTestFail("srli_epi64 " LOCATION);
+            }
+
+            z0 = x.cc_srai_epi16(j);
+            z1 = x.mm_srai_epi16(j);
+            if (z0 != z1)
+            {
+                std::cout << "srai_epi16 " << int(j) << " " << i << std::endl;
+                std::cout << "x   " << bits(x, 16) << std::endl;
+                std::cout << "act " << bits(z0, 16) << std::endl;
+                std::cout << "exp " << bits(z1, 16) << std::endl;
+                throw UnitTestFail("srai_epi16 " LOCATION);
+            }
         }
 
         z0 = x.cc_xor_si128(y);

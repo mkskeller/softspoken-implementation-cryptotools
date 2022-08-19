@@ -238,6 +238,9 @@ namespace osuCrypto
 #endif
         inline osuCrypto::block cc_slli_epi64(const std::uint8_t& rhs)const
         {
+            if (rhs >= 64)
+                return {0, 0};
+
             auto ret = as<std::uint64_t>();
             ret[0] <<= rhs;
             ret[1] <<= rhs;
@@ -267,6 +270,9 @@ namespace osuCrypto
 #endif
         inline block cc_srli_epi64(const std::uint8_t& rhs) const
         {
+            if (rhs >= 64)
+                return {0, 0};
+
             auto ret = as<std::uint64_t>();
             ret[0] >>= rhs;
             ret[1] >>= rhs;
@@ -414,18 +420,10 @@ namespace osuCrypto
             }
             else
             {
-
-                r[0] = v[0] ? 0xFFFF : 0;
-                r[1] = v[1] ? 0xFFFF : 0;
-                r[2] = v[2] ? 0xFFFF : 0;
-                r[3] = v[3] ? 0xFFFF : 0;
-                r[4] = v[4] ? 0xFFFF : 0;
-                r[5] = v[5] ? 0xFFFF : 0;
-                r[6] = v[6] ? 0xFFFF : 0;
-                r[7] = v[7] ? 0xFFFF : 0;
+                for (int i = 0; i < 8; i++)
+                    r[i] = (v[i] & 0x8000) ? 0xFFFF : 0;
             }
             return r;
-
         }
 
 
