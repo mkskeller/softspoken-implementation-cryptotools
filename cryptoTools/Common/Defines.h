@@ -40,7 +40,7 @@
 #endif
 
 // add instrinsics names that intel knows but clang doesn't…
-#ifdef __clang__
+#if defined(__clang__) and not defined(SIMDE_X86_SSE2_ENABLE_NATIVE_ALIASES)
 #define _mm_cvtsi128_si64x _mm_cvtsi128_si64
 #endif
 

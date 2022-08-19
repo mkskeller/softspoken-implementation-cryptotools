@@ -91,7 +91,7 @@ std::string bits(T x, u64 width)
 void tests_cryptoTools::block_operation_test()
 {
 
-#ifdef OC_ENABLE_SSE2
+#if defined(OC_ENABLE_SSE2) and not defined(SIMDE_X86_SSE2_ENABLE_NATIVE_ALIASES)
 
 
     for (u64 i = 2; i < 100; ++i)

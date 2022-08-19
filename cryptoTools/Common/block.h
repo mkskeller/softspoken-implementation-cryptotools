@@ -216,8 +216,8 @@ namespace osuCrypto
 
 
         inline osuCrypto::block operator<<(const std::uint8_t& rhs)const
-        {
-#ifdef OC_ENABLE_SSE2
+	{
+#if defined(OC_ENABLE_SSE2) and not defined(SIMDE_X86_SSE2_ENABLE_NATIVE_ALIASES)
             return mm_slli_epi64(rhs);
 #else
             return cc_slli_epi64(rhs);
@@ -230,7 +230,7 @@ namespace osuCrypto
             return *this;
         }
 
-#ifdef OC_ENABLE_SSE2
+#if defined(OC_ENABLE_SSE2) and not defined(SIMDE_X86_SSE2_ENABLE_NATIVE_ALIASES)
         inline osuCrypto::block mm_slli_epi64(const std::uint8_t& rhs)const
         {
             return _mm_slli_epi64(mData, rhs);
@@ -249,7 +249,7 @@ namespace osuCrypto
 
         inline block operator>>(const std::uint8_t& rhs)const
         {
-#ifdef OC_ENABLE_SSE2
+#if defined(OC_ENABLE_SSE2) and not defined(SIMDE_X86_SSE2_ENABLE_NATIVE_ALIASES)
             return mm_srli_epi64(rhs);
 #else
             return cc_srli_epi64(rhs);
@@ -262,7 +262,7 @@ namespace osuCrypto
             return *this;
         }
 
-#ifdef OC_ENABLE_SSE2
+#if defined(OC_ENABLE_SSE2) and not defined(SIMDE_X86_SSE2_ENABLE_NATIVE_ALIASES)
         inline block mm_srli_epi64(const std::uint8_t& rhs) const
         {
             return _mm_srli_epi64(mData, rhs);
@@ -390,14 +390,14 @@ namespace osuCrypto
 
         inline block srai_epi16(int imm8) const
         {
-#ifdef OC_ENABLE_SSE2
+#if defined(OC_ENABLE_SSE2) and not defined(SIMDE_X86_SSE2_ENABLE_NATIVE_ALIASES)
             return mm_srai_epi16(imm8);
 #else
             return cc_srai_epi16(imm8);
 #endif
         }
 
-#ifdef OC_ENABLE_SSE2
+#if defined(OC_ENABLE_SSE2) and not defined(SIMDE_X86_SSE2_ENABLE_NATIVE_ALIASES)
         inline block mm_srai_epi16(char imm8) const
         {
             return _mm_srai_epi16(*this, imm8);
