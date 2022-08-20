@@ -566,7 +566,8 @@ namespace osuCrypto {
     typename std::enable_if<is_container<Container>::value, void>::type Channel::asyncSend(std::unique_ptr<Container> c)
     {
         // less that 32 bit max
-        Expects(channelBuffSize(*c) < u32(-1));
+        auto size = channelBuffSize(*c);
+        Expects(size < u32(-1));
 
         if (channelBuffSize(*c) == 0) return;
 
@@ -583,7 +584,8 @@ namespace osuCrypto {
     typename std::enable_if<is_container<Container>::value, void>::type Channel::asyncSend(std::shared_ptr<Container> c)
     {
         // less that 32 bit max
-        Expects(channelBuffSize(*c) < u32(-1));
+        auto size = channelBuffSize(*c);
+        Expects(size < u32(-1));
 
         if (channelBuffSize(*c) == 0) return;
 
@@ -602,7 +604,8 @@ namespace osuCrypto {
     typename std::enable_if<is_container<Container>::value, void>::type Channel::asyncSend(const Container& c)
     {
         // less that 32 bit max
-        Expects(channelBuffSize(c) < u32(-1));
+        auto s = channelBuffSize(c);
+        Expects(s < u32(-1));
 
         if (channelBuffSize(c) == 0) return;
 
@@ -620,7 +623,8 @@ namespace osuCrypto {
     typename std::enable_if<is_container<Container>::value, void>::type Channel::asyncSend(Container&& c)
     {
         // less that 32 bit max
-        Expects(channelBuffSize(c) < u32(-1));
+        auto size = channelBuffSize(c);
+        Expects(size < u32(-1));
 
         if (channelBuffSize(c) == 0) return;
 
@@ -639,7 +643,8 @@ namespace osuCrypto {
         Channel::asyncRecv(Container & c)
     {
         // less that 32 bit max
-        Expects(channelBuffSize(c) < u32(-1));
+        auto size = channelBuffSize(c);
+        Expects(size < u32(-1));
 
         if (channelBuffSize(c) == 0)
         {
@@ -862,7 +867,8 @@ namespace osuCrypto {
         Channel::asyncSend(Container&& c, std::function<void()> callback)
     {
         // less that 32 bit max
-        Expects(channelBuffSize(c) < u32(-1));
+        auto size = channelBuffSize(c);
+        Expects(size < u32(-1));
 
         if (channelBuffSize(c) == 0)
         {
@@ -886,7 +892,8 @@ namespace osuCrypto {
         Channel::asyncSend(Container&& c, std::function<void(const error_code&)> callback)
     {
         // less that 32 bit max
-        Expects(channelBuffSize(c) < u32(-1));
+        auto size = channelBuffSize(c);
+        Expects(size < u32(-1));
 
         if (channelBuffSize(c) == 0)
         {

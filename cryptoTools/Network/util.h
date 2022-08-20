@@ -175,7 +175,8 @@ namespace osuCrypto
 
             void moveTo(SBO_ptr<T, StorageSize>& dest) override
             {
-                Expects(dest.get() == nullptr);
+                auto get = dest.get();
+                Expects(get == nullptr);
                 dest.New<U>(std::move(mU));
             }
 

@@ -317,12 +317,14 @@ namespace osuCrypto
                 : mHeaderSize(size_header_type(size))
                 , mBuff{ (u8*)data,  span<u8>::size_type(size) }
             {
-                Expects(size < std::numeric_limits<size_header_type>::max());
+                auto max = std::numeric_limits<size_header_type>::max();
+                Expects(size < max);
             }
 
             void set(const u8* data, u64 size)
             {
-                Expects(size < std::numeric_limits<size_header_type>::max());
+                auto max = std::numeric_limits<size_header_type>::max();
+                Expects(size < max);
                 mBuff = { (u8*)data, span<u8>::size_type(size) };
             }
 
@@ -332,7 +334,8 @@ namespace osuCrypto
 
             inline std::array<boost::asio::mutable_buffer, 2> getSendBuffer()
             {
-                Expects(mBuff.size());
+                auto size = mBuff.size();
+                Expects(size);
                 mHeaderSize = size_header_type(mBuff.size());
                 return { { getRecvHeaderBuffer(), getRecvBuffer() } };
             }

@@ -48,7 +48,9 @@ void copy(span<SrcElementType, SrcExtent> src, span<DestElementType, DestExtent>
                       (SrcExtent <= DestExtent),
                   "Source range is longer than target range");
 
-    Expects(dest.size() >= src.size());
+	auto d = dest.size();
+	auto s = src.size();
+    Expects(d >= s);
     std::copy_n(src.data(), src.size(), dest.data());
 }
 
