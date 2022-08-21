@@ -138,7 +138,7 @@ namespace osuCrypto {
         }
         else
         {
-            std::fill_n(mData, newSize, toBlock(0UL));
+            std::fill_n(mData, newSize, toBlock(std::uint64_t(0)));
         }
 
         mNumBits = new_nbits;
