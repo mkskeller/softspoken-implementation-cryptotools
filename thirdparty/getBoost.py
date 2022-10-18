@@ -38,7 +38,7 @@ def getBoost(install, prefix, par):
                     if t == maxTries:
                         print("failed to download boost. please manually download the archive to")
                         print("{0}/{1}".format(cwd, arch))
-                        exit()
+                        exit(1)
                     else:
                         time.sleep(1)
                         print("failed to download boost. retrying...")
