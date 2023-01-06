@@ -12,7 +12,7 @@ import platform
 import time
 
 def getBoost(install, prefix, par):
-    version = "80"
+    version = "81"
     folder = "boost_1_{0}_0".format(version)
     arch = "{0}.tar.bz2".format(folder)
     url = "https://boostorg.jfrog.io/artifactory/main/release/1.{0}.0/source/{1}".format(version, arch)
