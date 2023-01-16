@@ -156,6 +156,40 @@ void tests_cryptoTools::block_operation_test()
             throw UnitTestFail("or_si128 " LOCATION);
         }
 
+#ifdef ENABLE_PCLMUL
+        auto v0 = block(5);
+        auto v1 = block(31);
+        z0 = v0.cc_clmulepi64_si128<0x00>(v1);
+        z1 = v0.mm_clmulepi64_si128<0x00>(v1);
+        if (z0 != z1)
+        {
+            std::cout << std::hex << (5 * 31) << std::dec << "\n" << z0 << " " << bits(z0, 32) << std::endl;
+            std::cout << z1 << " " << bits(z1, 32) << std::endl;
+            throw RTE_LOC;
+        }
+
+        z0 = x.cc_clmulepi64_si128<0x00>(y);
+        z1 = x.mm_clmulepi64_si128<0x00>(y);
+        if (z0 != z1)
+        {
+            std::cout << "\n" << z0 << " " << bits(z0, 32) << std::endl;
+            std::cout << z1 << " " << bits(z1, 32) << std::endl;
+            throw RTE_LOC;
+        }
+        z0 = x.cc_clmulepi64_si128<0x01>(y);
+        z1 = x.mm_clmulepi64_si128<0x01>(y);
+        if (z0 != z1)
+            throw RTE_LOC;
+        z0 = x.cc_clmulepi64_si128<0x10>(y);
+        z1 = x.mm_clmulepi64_si128<0x10>(y);
+        if (z0 != z1)
+            throw RTE_LOC;
+        z0 = x.cc_clmulepi64_si128<0x11>(y);
+        z1 = x.mm_clmulepi64_si128<0x11>(y);
+        if (z0 != z1)
+            throw RTE_LOC;
+#endif
+
         for (int j = 0; j < 128; j++)
         {
             z0 = x.cc_slli_epi64(j);

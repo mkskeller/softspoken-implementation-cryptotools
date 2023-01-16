@@ -49,11 +49,11 @@
 #define OC_ENABLE_SSE2 ON
 #endif
 
-#if (defined(_MSC_VER) || defined(__PCLMUL__)) && defined(ENABLE_SSE)
+#if (defined(_MSC_VER) || defined(__PCLMUL__)) && defined(ENABLE_AVX)
 #define OC_ENABLE_PCLMUL
 #endif
 
-#if (defined(_MSC_VER) || defined(__AES__)) && defined(ENABLE_SSE)
+#if (defined(_MSC_VER) || defined(__AES__)) && defined(ENABLE_AVX)
 #define OC_ENABLE_AESNI ON
 #else
 #define OC_ENABLE_PORTABLE_AES ON

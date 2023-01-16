@@ -21,10 +21,10 @@ if(NOT MSVC)
     target_link_options(cryptoTools PUBLIC -pthread)
 
     if(ENABLE_SSE)
-        target_compile_options(cryptoTools PUBLIC -maes -msse2 -msse3 -mssse3 -msse4.1 -mpclmul)
+        target_compile_options(cryptoTools PUBLIC -maes -msse2)
     endif()
     if(ENABLE_AVX)
-        target_compile_options(cryptoTools PUBLIC -mavx2)
+        target_compile_options(cryptoTools PUBLIC -msse3 -mssse3 -msse4.1 -mpclmul -mavx2)
     endif()
 endif()
 

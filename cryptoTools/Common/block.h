@@ -350,7 +350,7 @@ namespace osuCrypto
 
         inline bool operator==(const osuCrypto::block& rhs) const
         {
-#ifdef OC_ENABLE_SSE2
+#ifdef OC_ENABLE_AVX
             auto neq = _mm_xor_si128(*this, rhs);
             return _mm_test_all_zeros(neq, neq) != 0;
 #else
@@ -459,7 +459,7 @@ namespace osuCrypto
 
         inline int testc(const block& b) const
         {
-#ifdef OC_ENABLE_SSE2
+#ifdef OC_ENABLE_AVX
             return mm_testc_si128(b);
 #else
             return cc_testc_si128(b);
@@ -614,6 +614,62 @@ namespace osuCrypto
             //std::cout << "     " << bits(mul256_low, 128) << std::endl;
 
             return mul256_low;
+        }
+#endif
+
+#ifdef OC_ENABLE_PCLMUL
+        template<int imm8>
+        block mm_clmulepi64_si128(const block b) const
+        {
+            return _mm_clmulepi64_si128(*this, b, imm8);
+        }
+#endif
+
+        template<int imm8>
+        block cc_clmulepi64_si128(const block b) const
+        {
+
+            std::array<uint64_t,2> shifted, result0;
+
+            auto x = extract_epi64<imm8 & 1>();
+            auto y = b.extract_epi64<(imm8 >> 4) & 1>();
+            result0[0] = x * (y & 1);
+            result0[1] = 0;
+
+            for (int64_t j = 1; j < 64; ++j) {
+                auto bit = (y >> j) & 1ull;
+
+                shifted[0] = x << j;
+                shifted[1] = x >> (64 - j);
+
+                result0[0] ^= shifted[0] * bit;
+                result0[1] ^= shifted[1] * bit;
+            }
+
+            return result0;
+        }
+
+        template<int imm8>
+        block clmulepi64_si128(block b) const
+        {
+#ifdef OC_ENABLE_PCLMUL
+            return mm_clmulepi64_si128<imm8>(b);
+#else
+            return cc_clmulepi64_si128<imm8>(b);
+#endif
+        }
+
+#ifdef OC_ENABLE_PCLMUL
+        template<int imm8>
+        uint64_t extract_epi64() const
+        {
+            return _mm_extract_epi64(mData, imm8);
+        }
+#else
+        template<int imm8>
+        uint64_t extract_epi64() const
+        {
+            return ((uint64_t*) &mData)[imm8];
         }
 #endif
     };
