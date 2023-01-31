@@ -669,7 +669,9 @@ namespace osuCrypto
         template<int imm8>
         uint64_t extract_epi64() const
         {
-            return ((uint64_t*) &mData)[imm8];
+            uint64_t tmp[2];
+            _mm_storeu_si128((__m128i*) &tmp, mData);
+            return tmp[imm8];
         }
 #endif
     };
