@@ -66,7 +66,7 @@ def Build(projectName, mainArgs, cmakeArgs,install, prefix, par):
         parallel = " --parallel " + str(par)
 
     mkDirCmd = "mkdir -p {0}".format(buildDir); 
-    CMakeCmd = "cmake -S . -B {0} {1}".format(buildDir, argStr)
+    CMakeCmd = "cmake -B {0} -S . {1}".format(buildDir, argStr)
     BuildCmd = "cmake --build {0} {1} {2} ".format(buildDir, config, parallel)
 
     
