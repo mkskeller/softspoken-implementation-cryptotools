@@ -116,7 +116,7 @@ namespace osuCrypto
     ///    * Container::pointer Container::data();
     ///    * Container::size_type Container::size();
     /// Must contain Plain Old Data:
-    ///    * std::is_pod<Container::value_type>::value == true
+    ///    * std::is_trivial<Container::value_type>::value == true
     template<typename Container>
     using is_container =
         std::is_same<typename std::enable_if<
@@ -126,8 +126,8 @@ namespace osuCrypto
         std::is_convertible<
         typename Container::size_type,
         decltype(std::declval<Container>().size())>::value&&
-        std::is_pod<typename Container::value_type>::value&&
-        std::is_pod<Container>::value == false>::type
+        std::is_trivial<typename Container::value_type>::value&&
+        std::is_trivial<Container>::value == false>::type
         ,
         void>;
 

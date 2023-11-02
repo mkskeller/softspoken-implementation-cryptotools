@@ -57,7 +57,7 @@ namespace osuCrypto {
 
 		// Add length bytes pointed to by dataIn to the internal Blake2 state.
 		template<typename T>
-		typename std::enable_if<std::is_pod<T>::value>::type Update(const T* dataIn, u64 length)
+		typename std::enable_if<std::is_trivial<T>::value>::type Update(const T* dataIn, u64 length)
 		{
 			auto res = blake2b_update(&state, dataIn, length * sizeof(T));
 			Expects(res == 0);
@@ -80,7 +80,7 @@ namespace osuCrypto {
 		// Finalize the Blake2 hash and output the result to out.
 		// Only sizeof(T) bytes of the output are written.
 		template<typename T>
-		typename std::enable_if<std::is_pod<T>::value && sizeof(T) <= MaxHashSize && std::is_pointer<T>::value == false>::type
+		typename std::enable_if<std::is_trivial<T>::value && sizeof(T) <= MaxHashSize && std::is_pointer<T>::value == false>::type
 			Final(T& out)
 		{
 			if (sizeof(T) != outputLength())
