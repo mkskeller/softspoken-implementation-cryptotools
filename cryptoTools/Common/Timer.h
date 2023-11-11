@@ -43,6 +43,7 @@ namespace osuCrypto
         std::list< std::pair<timeUnit, std::string>> mTimes;
         bool mLocking;
         std::mutex mMtx;
+        timeUnit dummy;
 
         Timer(bool locking = false)
             :mLocking(locking)

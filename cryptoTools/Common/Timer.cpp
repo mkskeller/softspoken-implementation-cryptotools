@@ -10,8 +10,12 @@ namespace osuCrypto
 {
     const Timer::timeUnit& Timer::setTimePoint(const std::string& msg)
     {
+#ifdef THREAD_UNSAFE_TIMINGS
         mTimes.push_back(std::make_pair(timeUnit::clock::now(), msg));
         return  mTimes.back().first;
+#else
+        return dummy;
+#endif
     }
 
     void Timer::reset()
