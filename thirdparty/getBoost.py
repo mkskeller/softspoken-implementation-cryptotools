@@ -106,7 +106,7 @@ def getBoost(install, prefix, par):
         if not install and len(prefix) == 0:
             prefix = cwd + "/unix"
 
-        b2Args = "--with-system --with-thread --with-filesystem --with-atomic --with-regex"
+        b2Args = "--with-system --with-thread --with-filesystem --with-atomic --with-regex --with-iostreams"
 
         if par != 1:
             b2Args = " -j" + str(par) + " " + b2Args
