@@ -114,7 +114,7 @@ namespace osuCrypto
 
         T& operator()(size_type rowIdx, size_type colIdx)
         {
-            return mView[rowIdx * stride() + colIdx];
+            return mView.at(rowIdx * stride() + colIdx);
         }
 
         const T& operator()(size_type rowIdx, size_type colIdx) const
@@ -124,9 +124,7 @@ namespace osuCrypto
 
         const span<T> operator[](size_type rowIdx) const
         {
-#ifndef NDEBUG
             if (rowIdx >= rows()) throw std::runtime_error(LOCATION);
-#endif
 
             return span<T>(mView.data() + rowIdx * stride(), stride());
         }
