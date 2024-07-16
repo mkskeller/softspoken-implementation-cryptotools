@@ -93,6 +93,7 @@ def Build(projectName, mainArgs, cmakeArgs,install, prefix, par):
 
     os.system(mkDirCmd)
     os.system(CMakeCmd)
+    os.system(CMakeCmd)
     res = os.system(BuildCmd)
     if (res != 0):
         exit(1)
