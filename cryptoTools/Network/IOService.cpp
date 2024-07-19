@@ -894,7 +894,7 @@ namespace osuCrypto
 
     void IOService::stop()
     {
-
+        mIoService.stop();
 
         // Skip if its already shutdown.
         if (mStopped == false)
