@@ -322,7 +322,7 @@ namespace osuCrypto {
             return _mm_aesenc_si128(state, roundKey);
         }
 
-#if (defined(__GNUC__) || defined(__clang__)) && defined(__OPTIMIZE__)
+#if (defined(__GNUC__) || defined(__clang__)) && defined(__OPTIMIZE__) && defined(__x86_64__)
         // Use asm hacks to define a custom calling convention, so that the plaintext and ciphertext
         // get passed in registers. This is possible without asm hacking for the inputs, but there's
         // no way to get GCC's calling convention to put more than one output in a SSE register.

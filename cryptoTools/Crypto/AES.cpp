@@ -3,7 +3,6 @@
 #include <cstring>
 
 #ifdef OC_ENABLE_AESNI
-#include <wmmintrin.h>
 #elif !defined(OC_ENABLE_PORTABLE_AES)
 static_assert(0, "OC_ENABLE_PORTABLE_AES must be defined if ENABLE_AESNI is not.");
 #endif
@@ -364,7 +363,7 @@ namespace osuCrypto {
 
         }
 
-#if (defined(__GNUC__) || defined(__clang__)) && defined(__OPTIMIZE__)
+#if (defined(__GNUC__) || defined(__clang__)) && defined(__OPTIMIZE__) && defined(__x86_64__)
         #define AES_ENC_BLOCKS_CUSTOM_CALLING_CONV(n) \
         __attribute__((sysv_abi)) void ecbEncBlocksCustomCallingConv##n() \
         { \
