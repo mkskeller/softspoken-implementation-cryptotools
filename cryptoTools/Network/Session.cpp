@@ -82,8 +82,9 @@ namespace osuCrypto {
 			mBase->mTLSSessionID = prng.get();
 #endif
             boost::asio::ip::tcp::resolver resolver(ioService.mIoService);
-            boost::asio::ip::tcp::resolver::query query(mBase->mIP, boost::lexical_cast<std::string>(port));
-            mBase->mRemoteAddr = *resolver.resolve(query);
+            auto results = resolver.resolve(mBase->mIP, boost::lexical_cast<std::string>(port));
+            assert(not results.empty());
+            mBase->mRemoteAddr = *results.begin();
         }
     }
 

@@ -65,8 +65,8 @@ namespace osuCrypto
         IOService(u64 threadCount = 0);
         ~IOService();
 
-        boost::asio::io_service mIoService;
-		boost::asio::strand<boost::asio::io_service::executor_type> mStrand;
+        boost::asio::io_context mIoService;
+		boost::asio::strand<boost::asio::io_context::executor_type> mStrand;
 
         Work mWorker;
 
@@ -105,7 +105,7 @@ namespace osuCrypto
         // the Accept will receive the socket's name. At this point it will
         // be converted to a NamedSocket and matched with a Channel.
         struct PendingSocket {
-            PendingSocket(boost::asio::io_service& ios) : mSock(ios) {}
+            PendingSocket(boost::asio::io_context& ios) : mSock(ios) {}
             boost::asio::ip::tcp::socket mSock;
             std::string mBuff;
 //#ifdef ENABLE_NET_LOG
@@ -218,7 +218,7 @@ namespace osuCrypto
 
 		IOService& mIOService;
 
-		boost::asio::strand<boost::asio::io_service::executor_type> mStrand;
+		boost::asio::strand<boost::asio::io_context::executor_type> mStrand;
 		boost::asio::ip::tcp::acceptor mHandle;
 
 		std::atomic<bool> mStopped;

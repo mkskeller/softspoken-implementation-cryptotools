@@ -23,7 +23,7 @@ namespace osuCrypto
 
     void post(IOService* ios, std::function<void()>&& fn)
     {
-        ios->mIoService.post(std::move(fn));
+        boost::asio::post(std::move(fn));
     }
 
 
@@ -37,7 +37,7 @@ namespace osuCrypto
 #endif
 
     Work::Work(IOService& ios, std::string reason)
-        : mWork(new boost::asio::io_service::work(ios.mIoService))
+        : mWork(new boost::asio::executor_work_guard<boost::asio::io_context::executor_type>(ios.mIoService.get_executor()))
         , mReason(reason)
         , mIos(ios)
     {
@@ -97,7 +97,8 @@ namespace osuCrypto
             return;
         }
 
-        mAddress = *addrIter;
+        assert(not addrIter.empty());
+        mAddress = *addrIter.begin();
 
         mHandle.open(mAddress.protocol());
         mHandle.set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
@@ -124,7 +125,7 @@ namespace osuCrypto
 
         //std::promise<void> mStoppedListeningPromise, mSocketChannelPairsRemovedProm;
         //std::future<void> mStoppedListeningFuture, mSocketChannelPairsRemovedFuture;
-        mHandle.listen(boost::asio::socket_base::max_connections);
+        mHandle.listen(boost::asio::socket_base::max_listen_connections);
     }
 
     void Acceptor::start()

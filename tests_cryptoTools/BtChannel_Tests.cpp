@@ -516,8 +516,7 @@ namespace tests_cryptoTools
         boost::asio::ip::tcp::socket sock(ios.mIoService);
 
         boost::asio::ip::tcp::resolver resolver(ios.mIoService);
-        boost::asio::ip::tcp::resolver::query query("127.0.0.1", "1212");
-        boost::asio::ip::tcp::endpoint addr = *resolver.resolve(query);
+        boost::asio::ip::tcp::endpoint addr = *resolver.resolve("127.0.0.1", "1212").begin();
 
         error_code ec;
         sock.connect(addr, ec);

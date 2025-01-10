@@ -17,7 +17,7 @@ namespace osuCrypto
     class Work
     {
     public:
-        std::unique_ptr<boost::asio::io_service::work> mWork;
+        std::unique_ptr<boost::asio::executor_work_guard<boost::asio::io_context::executor_type>> mWork;
         std::string mReason;
         IOService& mIos;
         Work(IOService& ios, std::string reason);
