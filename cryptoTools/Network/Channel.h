@@ -403,7 +403,7 @@ namespace osuCrypto {
         }
 
 
-        boost::asio::deadline_timer mTimer;
+        boost::asio::system_timer mTimer;
 
         enum class ComHandleStatus { Uninit, Init, Eval };
         ComHandleStatus mSendStatus = ComHandleStatus::Uninit;
