@@ -23,7 +23,7 @@ namespace osuCrypto
 
     void post(IOService* ios, std::function<void()>&& fn)
     {
-        boost::asio::post(std::move(fn));
+        boost::asio::post(ios->mIoService.get_executor(), std::move(fn));
     }
 
 
